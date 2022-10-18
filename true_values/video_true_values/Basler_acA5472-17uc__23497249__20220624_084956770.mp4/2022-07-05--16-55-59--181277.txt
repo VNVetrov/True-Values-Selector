@@ -1,0 +1,40 @@
+# 
+# 7845 - Goyave
+# 9451 - Anteh bouquet
+# 8391 - Concombre NOA Espagne
+840 - 860 - 6570
+# 
+# 9402 - Tomate Cerise grap rabelais
+# 9392 - Tomate Divinina
+# 9170 - Radis botte rouge
+1263 - 1283 - 9392
+# 
+# 9402 - Tomate Cerise grap rabelais
+# 9392 - Tomate Divinina
+# 9170 - Radis botte rouge
+1271 - 1291 - 9392
+# 
+# 7416 - Pomme Braeburn
+# 8930 - 8930
+# 7858 - Mangue selection
+1590 - 1610 - 7323
+# 
+# 8930 - 8930
+# 7416 - Pomme Braeburn
+# 5930 - Mandarine
+1605 - 1625 - 7323
+# 
+# 8000 - Artichaut Blanc
+# 7888 - Ugli
+# 8930 - 8930
+1674 - 1694 - 6223
+# 
+# 8000 - Artichaut Blanc
+# 7888 - Ugli
+# 9459 - Menthe bouquet
+1683 - 1703 - 6223
+# 
+# 8000 - Artichaut Blanc
+# 7888 - Ugli
+# 7240 - Poire Passe Crassane Grosse
+1739 - 1759 - 6223
