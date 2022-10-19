@@ -3,7 +3,6 @@ import os
 import re
 
 
-
 class Slide:
     def __init__(self, video_name, video_path, true_values_file_path, frame, class_id, class_name, prediction):
         self.video_name = video_name
@@ -48,15 +47,12 @@ def get_slides_data(json_path):
 def get_data(
         json_path: str = '',
         photos_path: str = '',
-        true_values_dir: str = ''
 ):
     if not os.path.isfile(json_path):
         print("Wrong json_path")
         return
-    if not os.path.isdir(photos_path) or not os.path.isdir(true_values_dir):
-        print("Wrong photos_path or true_values_dir")
+    if not os.path.isdir(photos_path):
+        print("Wrong photos_path")
         return
     model_name, slides = get_slides_data(json_path)
-    return model_name, slides, true_values_dir, photos_path
-
-
+    return model_name, slides, photos_path
