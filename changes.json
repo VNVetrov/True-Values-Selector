@@ -1,0 +1,47 @@
+[
+  {
+    "SLIDE_IDX": 0,
+    "changed_to": "5300",
+    "video_name": "2022-07-04--14-03-18--685732.avi",
+    "video_path": "/home/shared/videos-and-photos-from-store-links/Basler_acA5472-17uc__23497249__20220623_115131210.mp4/2022-07-04--14-03-18--685732.avi",
+    "true_values_file_path": "/home/shared/models-stats/video_true_values/Basler_acA5472-17uc__23497249__20220623_115131210.mp4/2022-07-04--14-03-18--685732.txt",
+    "frame": 4710,
+    "class_id": "5310",
+    "class_name": "",
+    "prediction": [
+      "5300",
+      "7813",
+      "8470"
+    ]
+  },
+  {
+    "SLIDE_IDX": 1,
+    "changed_to": "7813",
+    "video_name": "2022-07-04--14-03-18--685732.avi",
+    "video_path": "/home/shared/videos-and-photos-from-store-links/Basler_acA5472-17uc__23497249__20220623_115131210.mp4/2022-07-04--14-03-18--685732.avi",
+    "true_values_file_path": "/home/shared/models-stats/video_true_values/Basler_acA5472-17uc__23497249__20220623_115131210.mp4/2022-07-04--14-03-18--685732.txt",
+    "frame": 4808,
+    "class_id": "5310",
+    "class_name": "",
+    "prediction": [
+      "5300",
+      "7813",
+      "8470"
+    ]
+  },
+  {
+    "SLIDE_IDX": 9,
+    "changed_to": "9402",
+    "video_name": "2022-07-04--13-40-05--071624.avi",
+    "video_path": "/home/shared/videos-and-photos-from-store-links/Basler_acA5472-17uc__23497249__20220623_115131210.mp4/2022-07-04--13-40-05--071624.avi",
+    "true_values_file_path": "/home/shared/models-stats/video_true_values/Basler_acA5472-17uc__23497249__20220623_115131210.mp4/2022-07-04--13-40-05--071624.txt",
+    "frame": 5026,
+    "class_id": "9392",
+    "class_name": "Tomate Divinina",
+    "prediction": [
+      "9376",
+      "9402",
+      "9346"
+    ]
+  }
+]

@@ -1,4 +1,5 @@
 import json
+import os
 import re
 
 
@@ -49,13 +50,13 @@ def get_data(
         photos_path: str = '',
         true_values_dir: str = ''
 ):
-    # if not os.path.isfile(json_path):
-    #     print("Wrong json_path")
-    #     return
-    # if not os.path.isdir(photos_path) or not os.path.isdir(true_values_dir):
-    #     print("Wrong photos_path or true_values_dir")
-    #     return
+    if not os.path.isfile(json_path):
+        print("Wrong json_path")
+        return
+    if not os.path.isdir(photos_path) or not os.path.isdir(true_values_dir):
+        print("Wrong photos_path or true_values_dir")
+        return
     model_name, slides = get_slides_data(json_path)
-    return model_name, slides
+    return model_name, slides, true_values_dir, photos_path
 
 
