@@ -1,7 +1,6 @@
 import json
 import re
 
-from tkinter_app import start_app
 
 
 class Slide:
@@ -57,5 +56,6 @@ def get_data(
     #     print("Wrong photos_path or true_values_dir")
     #     return
     model_name, slides = get_slides_data(json_path)
+    return model_name, slides
 
-    start_app(model_name, slides)
+
