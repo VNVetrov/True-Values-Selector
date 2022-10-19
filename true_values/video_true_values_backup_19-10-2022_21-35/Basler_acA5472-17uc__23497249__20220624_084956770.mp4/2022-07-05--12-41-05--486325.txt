@@ -1,0 +1,30 @@
+# 
+# 9011 - 9011
+# 6210 - Kiwi
+# 7175 - Poire Conférence
+13 - 33 - 8497
+# 
+# 6210 - Kiwi
+# 9011 - 9011
+# 7175 - Poire Conférence
+37 - 57 - 8497
+# 
+# 9011 - 9011
+# 6210 - Kiwi
+# 5930 - Mandarine
+89 - 109 - 8497
+# 
+# 8510 - 8510
+# 8550 - Haricot Machine
+# 8673 - Ciboule
+160 - 190 - 8562
+# 
+# 5315 - Bananes vertes non muries
+# 5310 - 5310
+# 5300 - Banane
+238 - 258 - 5310
+# 
+# 9373 - Tomate Cerise Jaune
+# 9019 - Pt Delicatesse Grenaille France
+# 7890 - Physalis Vrac
+284 - 304 - 9019

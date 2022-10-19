@@ -12,7 +12,7 @@ def make_backup(true_values_dir: str):
     if not os.path.exists(backup_dir):
         os.mkdir(backup_dir)
         shutil.copytree(src=true_values_dir, dst=backup_dir, dirs_exist_ok=True)
-        tkinter.messagebox.showinfo("Succes!", f"Backup files at {backup_dir}")
+        tkinter.messagebox.showinfo("Success!", f"Backup files at {backup_dir}")
     else:
         tkinter.messagebox.showinfo("Sorry!", "You can create backup in 1 minute!")
 
@@ -24,7 +24,6 @@ def add_changes(slide_idx, slide, new_class):
     }
     slide_dict = {f"{name}": value for name, value in slide.__dict__.items() if not name.startswith("__")}
     changes = dict(**changes, **slide_dict)
-    print(changes)
     # all_changes = []
     if not os.path.exists('changes.json'):
         f = open('changes.json', 'w')

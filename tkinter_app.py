@@ -53,15 +53,14 @@ def start_app(model_name, slides, true_values_dir, photos_path):
     root.mainloop()
 
 
-# not tkinter methods
 def get_slide_text(slide: Slide):
-    text = f"Slide idx: {SLIDE_IDX}/{len(SLIDES)}\n" \
-           f"Video name: {slide.video_name}\n" \
-           f"Frame num: {slide.frame}\n" \
-           f"Selected true value: {slide.class_id} - {slide.class_name}\n" \
-           f"{MODEL_NAME}'s prediction: ({', '.join(slide.prediction)})\n" \
-           f"Video path: {slide.video_path}\n" \
-           f"True values file path: {slide.true_values_file_path}"
+    text = f"Slide idx:\n\t {SLIDE_IDX}/{len(SLIDES)}\n" \
+           f"Video name:\n\t {slide.video_name}\n" \
+           f"Frame num:\n\t {slide.frame}\n" \
+           f"Selected true value:\n\t {slide.class_id} - {slide.class_name}\n" \
+           f"{MODEL_NAME}'s prediction:\n\t ({', '.join(slide.prediction)})\n" \
+           f"Video path:\n\t {slide.video_path}\n" \
+           f"True values file path:\n\t {slide.true_values_file_path}"
     return text
 
 
@@ -141,8 +140,6 @@ def show_app(root, model_name, slides, true_values_dir, photos_path):
             start_frame.place(relwidth=1, relheight=1)
 
         start_frame.place_forget()
-
-        whole_frame = Frame(root, bg=APP_BG_COLOR)
         whole_frame.place(relwidth=1, relheight=1)
 
         # main frames
@@ -222,3 +219,4 @@ def show_app(root, model_name, slides, true_values_dir, photos_path):
     make_backup_button.place(relx=0.3, rely=0.60, relheight=0.1, relwidth=0.4)
     model_name_label = Label(start_frame, text=f"Model name: {MODEL_NAME}", bg=APP_BG_COLOR, font=FONT)
     model_name_label.place(relx=0.3, rely=0.3, relwidth=0.4, relheight=0.1)
+    whole_frame = Frame(root, bg=APP_BG_COLOR)
