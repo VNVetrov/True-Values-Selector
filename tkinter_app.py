@@ -1,10 +1,11 @@
 import os
 import tkinter.messagebox
 from tkinter import *
+
 from PIL import ImageTk, Image
 
 from get_data import Slide
-from set_data import make_backup, add_changes, make_migration
+from set_data import make_backup, add_changes, make_migration, clean_changes
 
 APP_BG_COLOR = "#6C8CD5"
 FRAME_BG_COLOR = "#4671D5"
@@ -12,10 +13,12 @@ BOTTOM_BG_COLOR = "#06266F"
 MODEL_NAME = ''
 SLIDES = []
 SLIDE_IDX = 0
-TRUE_VALUES_DIR = ''
+TRUE_VALUES_DIR = "/home/shared/models-stats/video_true_values/"
+VIDEO_FRAME_PATH = "/mnt/hdd-zraid/videos-splitted-to-frames/"
 PHOTOS_PATH = ''
-FONT = "Ubuntu 18"
+FONT = None
 FONT_COLOR = "white"
+FRAME_PHOTO_DICT = {}
 
 
 def choose_call1():
@@ -35,7 +38,11 @@ def choose_call(num):
 
 
 def make_backup_call():
-    make_backup("/home/shared/models-stats/video_true_values/")
+    make_backup(TRUE_VALUES_DIR)
+
+
+def clean_changes_call():
+    clean_changes()
 
 
 def set_root():
@@ -93,6 +100,12 @@ def show_app(root, model_name, slides, photos_path):
             # updating info area
             slide_info.delete(1.0, 30.0)
             slide_info.insert(1.0, get_slide_text(SLIDES[SLIDE_IDX]))
+            # updating frame_photo
+            frame_photo = get_video_frame_photo()
+            frame_photo_label = Label(top_left_frame, image=frame_photo, bg=FRAME_BG_COLOR)
+            frame_photo_label.image = frame_photo
+            frame_photo_label.place(relx=0.51, rely=0.02, relheight=0.8, relwidth=0.47)
+            input_class.set('')
             # updating selected_photo
             selected_img = get_selected_photo()
             selected_img_label = Label(top_left_frame, image=selected_img, bg=FRAME_BG_COLOR, fg=FONT_COLOR)
@@ -117,8 +130,7 @@ def show_app(root, model_name, slides, photos_path):
             pred_2_class.set(SLIDES[SLIDE_IDX].prediction[1])
             pred_3_class.set(SLIDES[SLIDE_IDX].prediction[2])
 
-        def get_pred_photo(pred_number):
-            photo_path = f"{os.path.join(PHOTOS_PATH, f'{SLIDES[SLIDE_IDX].prediction[pred_number - 1]}.png')}"
+        def get_photo(photo_path):
             if os.path.exists(photo_path):
                 img = Image.open(photo_path)
                 img = img.resize((350, 350))
@@ -126,14 +138,33 @@ def show_app(root, model_name, slides, photos_path):
                 return img
             return None
 
+        def get_pred_photo(pred_number):
+            photo_path = f"{os.path.join(PHOTOS_PATH, f'{SLIDES[SLIDE_IDX].prediction[pred_number - 1]}.png')}"
+            return get_photo(photo_path)
+
         def get_selected_photo():
             photo_path = f"{os.path.join(PHOTOS_PATH, f'{SLIDES[SLIDE_IDX].class_id}.png')}"
-            if os.path.exists(photo_path):
-                img = Image.open(photo_path)
-                img = img.resize((350, 350))
-                img = ImageTk.PhotoImage(img)
-                return img
-            return None
+            return get_photo(photo_path)
+
+        def get_video_frame_photo():
+            frame = SLIDES[SLIDE_IDX].frame - 1
+            if not FRAME_PHOTO_DICT.get(str(frame), None):
+                path_to_frame_photo = os.path.join(VIDEO_FRAME_PATH,
+                                                   os.path.relpath(
+                                                       os.path.splitext(SLIDES[SLIDE_IDX].true_values_file_path)[0],
+                                                       TRUE_VALUES_DIR),
+                                                   str(frame),
+                                                   '0.png')
+                if os.path.exists(path_to_frame_photo):
+                    FRAME_PHOTO_DICT[str(frame)] = path_to_frame_photo
+            return get_photo(FRAME_PHOTO_DICT[str(frame)])
+
+        def choose_call4():
+            new_class = input_class.get()
+            if len(new_class) == 4 and new_class.isdigit():
+                add_changes(SLIDE_IDX, SLIDES[SLIDE_IDX], int(new_class))
+            else:
+                tkinter.messagebox.showerror("Sorry!", "You must input 4 digits class. Example: 5023")
 
         def hide_main_app():
             whole_frame.place_forget()
@@ -146,7 +177,18 @@ def show_app(root, model_name, slides, photos_path):
         # top left frame area
         top_left_frame = Frame(whole_frame, bg=FRAME_BG_COLOR)
         top_left_frame.place(relx=0.03, rely=0.03, relwidth=0.6, relheight=0.43)
-        # TODO: add video_photo
+        # video_photo
+        frame_photo = get_video_frame_photo()
+        frame_photo_label = Label(top_left_frame, image=frame_photo, bg=FRAME_BG_COLOR)
+        frame_photo_label.image = frame_photo
+        frame_photo_label.place(relx=0.51, rely=0.02, relheight=0.8, relwidth=0.47)
+        # choose class entry and label
+        input_class = StringVar()
+        class_entry = Entry(top_left_frame, textvariable=input_class)
+        class_entry.place(relx=0.55, rely=0.86, relheight=0.08, relwidth=0.25)
+        choose_own_button = Button(top_left_frame, text="Choose", font=FONT, command=choose_call4)
+        choose_own_button.place(relx=0.82, rely=0.86, relheight=0.08, relwidth=0.12)
+        # selected photo
         selected_img = get_selected_photo()
         selected_img_label = Label(top_left_frame, image=selected_img, bg=FRAME_BG_COLOR, fg=FONT_COLOR)
         selected_img_label.image = selected_img
@@ -172,7 +214,7 @@ def show_app(root, model_name, slides, photos_path):
         # pred 1
         pred_photo_1 = get_pred_photo(1)
         pred_photo_1_label = Label(middle_frame, image=pred_photo_1, bg=FRAME_BG_COLOR, fg=FONT_COLOR)
-        pred_photo_1_label.image = selected_img
+        pred_photo_1_label.image = pred_photo_1
         pred_photo_1_label.place(relx=0.02, rely=0.02, relwidth=0.31, relheight=0.8)
         pred_1_class = StringVar(value=f"{SLIDES[SLIDE_IDX].prediction[0]}")
         pred_photo_1_class_id = Label(middle_frame, textvariable=pred_1_class, bg=FRAME_BG_COLOR, font=FONT,
@@ -184,7 +226,7 @@ def show_app(root, model_name, slides, photos_path):
         # pred 2
         pred_photo_2 = get_pred_photo(2)
         pred_photo_2_label = Label(middle_frame, image=pred_photo_2, bg=FRAME_BG_COLOR, fg=FONT_COLOR)
-        pred_photo_2_label.image = selected_img
+        pred_photo_2_label.image = pred_photo_2
         pred_photo_2_label.place(relx=0.35, rely=0.02, relwidth=0.31, relheight=0.8)
         pred_2_class = StringVar(value=f"{SLIDES[SLIDE_IDX].prediction[1]}")
         pred_photo_2_class_id = Label(middle_frame, textvariable=pred_2_class, bg=FRAME_BG_COLOR, font=FONT,
@@ -195,7 +237,7 @@ def show_app(root, model_name, slides, photos_path):
         # pred 3
         pred_photo_3 = get_pred_photo(3)
         pred_photo_3_label = Label(middle_frame, image=pred_photo_3, bg=FRAME_BG_COLOR, fg=FONT_COLOR)
-        pred_photo_3_label.image = selected_img
+        pred_photo_3_label.image = pred_photo_3
         pred_photo_3_label.place(relx=0.68, rely=0.02, relwidth=0.31, relheight=0.8)
         pred_3_class = StringVar(value=f"{SLIDES[SLIDE_IDX].prediction[2]}")
         pred_photo_3_class_id = Label(middle_frame, textvariable=pred_3_class, bg=FRAME_BG_COLOR, font=FONT,
@@ -218,11 +260,13 @@ def show_app(root, model_name, slides, photos_path):
     start_frame = Frame(root, bg=APP_BG_COLOR)
     start_frame.place(relheight=1, relwidth=1)
     start_button = Button(start_frame, text="Start", command=main_app, font=FONT)
-    start_button.place(relx=0.3, rely=0.45, relwidth=0.4, relheight=0.1)
+    start_button.place(relx=0.3, rely=0.35, relwidth=0.4, relheight=0.1)
     make_backup_button = Button(start_frame, text="Make backup of true values", command=make_backup_call, font=FONT)
-    make_backup_button.place(relx=0.3, rely=0.60, relheight=0.1, relwidth=0.4)
+    make_backup_button.place(relx=0.3, rely=0.50, relheight=0.1, relwidth=0.4)
     model_name_label = Label(start_frame, text=f"Model name: {MODEL_NAME}", bg=APP_BG_COLOR, font=FONT, fg=FONT_COLOR)
-    model_name_label.place(relx=0.3, rely=0.3, relwidth=0.4, relheight=0.1)
+    model_name_label.place(relx=0.3, rely=0.2, relwidth=0.4, relheight=0.1)
     make_migration_button = Button(start_frame, text="Make migration", font=FONT, command=make_migration)
-    make_migration_button.place(relx=0.3, rely=0.75, relwidth=0.4, relheight=0.1)
+    make_migration_button.place(relx=0.3, rely=0.65, relwidth=0.4, relheight=0.1)
+    clean_changed_json_button = Button(start_frame, text="Clean changes.json", font=FONT, command=clean_changes_call)
+    clean_changed_json_button.place(relx=0.3, rely=0.8, relwidth=0.4, relheight=0.1)
     whole_frame = Frame(root, bg=APP_BG_COLOR)

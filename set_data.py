@@ -10,8 +10,7 @@ def make_backup(true_values_dir: str):
     true_values_dir = os.path.normpath(true_values_dir)
     backup_dir = true_values_dir + "_backup_" + datetime.datetime.now().strftime("%d-%m-%Y_%H-%M")
     if not os.path.exists(backup_dir):
-        os.mkdir(backup_dir)
-        shutil.copytree(src=true_values_dir, dst=backup_dir, dirs_exist_ok=True)
+        shutil.copytree(src=true_values_dir, dst=backup_dir)
         tkinter.messagebox.showinfo("Success!", f"Backup files at {backup_dir}")
     else:
         tkinter.messagebox.showinfo("Sorry!", "You can create backup in 1 minute!")
@@ -82,3 +81,10 @@ def make_migration():
             print(f"You have changed: {true_values_slide_dir}")
     else:
         tkinter.messagebox.showinfo("Sorry!", "You cannot make migration now, because config.json does not exist")
+
+
+def clean_changes():
+    with open('changes.json', 'w') as f:
+        ...
+    tkinter.messagebox.showinfo('Success!', "File changes.json cleaned!")
+    return
