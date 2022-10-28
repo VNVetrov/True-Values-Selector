@@ -147,7 +147,7 @@ def show_app(root, model_name, slides, photos_path):
             return get_photo(photo_path)
 
         def get_video_frame_photo():
-            frame = SLIDES[SLIDE_IDX].frame - 1
+            frame = int(SLIDES[SLIDE_IDX].frame) - 1
             if not FRAME_PHOTO_DICT.get(str(frame), None):
                 path_to_frame_photo = os.path.join(VIDEO_FRAME_PATH,
                                                    os.path.relpath(
